@@ -1,7 +1,8 @@
-export const gravitationalConstant = 0.1;
+// This needs to be adjusted as per the FPS.
+export const gravitationalConstant = 100;
 
-// TODO: Make FPS a user input.
-export const fps = 120;
+// Somehow, the simulation is more accurate with higher FPS.
+export const fps = 10000;
 export const deltaTime = 1000 / fps;
 
 export const defaultDotDiameter = 15;
