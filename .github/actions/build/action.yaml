@@ -1,0 +1,16 @@
+name: Build
+description: Checks if the code builds without errors.
+
+runs:
+  using: composite
+  steps:
+    # Setting up Node.js.
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 'lts/*'
+
+    # Running build.
+    - name: Running build.
+      run: npm ci && npm run build
+      shell: bash

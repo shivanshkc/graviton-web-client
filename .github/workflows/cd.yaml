@@ -1,0 +1,53 @@
+name: CD
+on:
+  # Runs on all push events on main.
+  push:
+    branches: [main]
+
+permissions:
+  # Can only read the source code.
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/lint
+
+  build:
+    name: Build
+    needs: lint
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/build
+
+  semver:
+    name: Semver
+    needs: build
+    runs-on: ubuntu-18.04
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/semver
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy
+    needs: semver
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/deploy
+        with:
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          service-account-key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+          project-id: ${{ secrets.GCP_PROJECT_ID }}
+          region: ${{ secrets.GCP_REGION }}
+          repository: ${{ secrets.GCP_REPOSITORY_NAME }}
+          service: ${{ secrets.GCP_SERVICE_NAME }}
