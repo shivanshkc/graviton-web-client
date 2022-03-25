@@ -3,6 +3,7 @@ import { Subscription, timer } from 'rxjs';
 
 import { defaultDotDiameter, defaultDotMass, deltaTime, gravitationalConstant } from '../../shared/constants';
 import { Dot, Vector2 } from '../../shared/models';
+import { ScreenResizeService } from '../../shared/services/screen-resize.service';
 import { Vector2Service } from '../../shared/services/vector2.service';
 import { getRandomColor } from '../../shared/utils/fmt-utils';
 
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _framesObservable = timer(0, deltaTime);
   private _framesSubscription?: Subscription;
 
-  constructor(private readonly _vector2: Vector2Service) {}
+  constructor(private readonly _vector2: Vector2Service, private readonly _screen: ScreenResizeService) {}
 
   public ngOnInit(): void {
     // Subscribing to the observable for updating each frame.
@@ -66,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       // Creating the new dot.
       const dot: Dot = { ...this.dots[i] };
-      dot.position = newPosition;
+      dot.position = this._shiftScreenOverflow(newPosition);
       dot.velocity = newVelocity;
 
       newDots.push(dot);
@@ -105,5 +106,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _firstLawOfMotion(u: Vector2, a: Vector2, t: number): Vector2 {
     const at = this._vector2.multiply(a, t);
     return this._vector2.sum(u, at);
+  }
+
+  /** Keeps the provided position inside the screen. */
+  private _shiftScreenOverflow(position: Vector2): Vector2 {
+    if (position.x < 0) position.x = this._screen.currentWidth + position.x;
+    else if (position.x > this._screen.currentWidth) position.x = position.x - this._screen.currentWidth;
+
+    if (position.y < 0) position.y = this._screen.currentHeight + position.y;
+    else if (position.y > this._screen.currentHeight) position.y = position.y - this._screen.currentHeight;
+
+    return position;
   }
 }
