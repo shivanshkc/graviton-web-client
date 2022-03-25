@@ -12,7 +12,7 @@
     "lint:check": "eslint .",
     "lint": "eslint --fix .",
     "build:image": "docker build -t graviton-web-client:latest .",
-    "build:container": "docker run -d -p 4200:8080 --name graviton-web-client -v $PWD/src/assets/conf.json:/project/dist/assets/conf.json graviton-web-client:latest"
+    "build:container": "docker run -d -p 4200:8080 --name graviton-web-client graviton-web-client:latest"
   },
   "private": true,
   "dependencies": {
