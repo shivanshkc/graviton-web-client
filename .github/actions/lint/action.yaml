@@ -1,0 +1,16 @@
+name: Lint
+description: Checks if the code is linted correctly.
+
+runs:
+  using: composite
+  steps:
+    # Setting up Node.js.
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 'lts/*'
+
+    # Running linting checkers.
+    - name: Running linting checkers.
+      run: npm ci && npm run pretty:check && npm run lint:check
+      shell: bash

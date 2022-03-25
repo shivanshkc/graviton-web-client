@@ -1,0 +1,28 @@
+name: Semver
+description: Upgrades the version tag as per semver.
+
+inputs:
+  github-token:
+    description: GitHub token.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 'lts/*'
+
+    - name: Release
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        npm install --global semantic-release @semantic-release/changelog @semantic-release/git
+        npx semantic-release --branches main --plugins \
+          @semantic-release/commit-analyzer \
+          @semantic-release/release-notes-generator \
+          @semantic-release/changelog \
+          @semantic-release/github \
+          @semantic-release/git
+      shell: bash

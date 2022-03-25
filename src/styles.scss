@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+// Sugar for width: 100%
+.w-100 {
+  width: 100%;
+}
+
+// Sugar for height: 100%
+.h-100 {
+  height: 100%;
+}
