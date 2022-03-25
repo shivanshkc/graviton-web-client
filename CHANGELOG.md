@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.0...v1.0.1) (2022-03-25)
+
+
+### Bug Fixes
+
+* **ci:** remove secrets volume, add badges ([70d9b46](https://github.com/shivanshkc/graviton-web-client/commit/70d9b46170c185efecfa299a673f71ea5169e6f9))
+
 # [1.0.0](https://github.com/shivanshkc/graviton-web-client/compare/v0.0.0...v1.0.0) (2022-03-25)
 
 ### Bug Fixes
