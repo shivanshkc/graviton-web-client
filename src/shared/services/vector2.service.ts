@@ -9,6 +9,11 @@ import { SharedModule } from '../shared.module';
 export class Vector2Service {
   constructor() {}
 
+  /** Sums two vectors. */
+  public sum(vec1: Vector2, vec2: Vector2): Vector2 {
+    return { x: vec1.x + vec2.x, y: vec1.y + vec2.y };
+  }
+
   /** Provides the displacement vector between two vectors. */
   public displacement(vec1: Vector2, vec2: Vector2): Vector2 {
     return { x: vec1.x - vec2.x, y: vec1.y - vec2.y };
@@ -19,9 +24,9 @@ export class Vector2Service {
     return Math.sqrt(vec.x * vec.x + vec.y * vec.y);
   }
 
-  /** Adds two vectors. */
-  public add(vec1: Vector2, vec2: Vector2): Vector2 {
-    return { x: vec1.x + vec2.x, y: vec1.y + vec2.y };
+  /** Provides the direction of the given vector. */
+  public direction(vec: Vector2): Vector2 {
+    return this.divide(vec, this.magnitude(vec));
   }
 
   /** Multiplies the vector by the provided constant. */

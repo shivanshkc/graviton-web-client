@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscriber, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 
 import { defaultDotDiameter, defaultDotMass, deltaTime, gravitationalConstant } from '../../shared/constants';
 import { Dot, Vector2 } from '../../shared/models';
@@ -13,13 +13,11 @@ import { getRandomColor } from '../../shared/utils/fmt-utils';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   // List of dots that will be rendered.
-  public readonly dots: Dot[] = [];
+  public dots: Dot[] = [];
 
   // The observer that fires at each frame.
   private readonly _framesObservable = timer(0, deltaTime);
   private _framesSubscription?: Subscription;
-
-  private readonly _dotSubscribers: Subscriber<void>[] = [];
 
   constructor(private readonly _vector2: Vector2Service) {}
 
@@ -40,15 +38,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     const position: Vector2 = { x: event.clientX, y: event.clientY };
     const velocity: Vector2 = { x: 0, y: 0 };
 
-    const onUpdate = new Observable<void>((subscriber) => {
-      this._dotSubscribers.push(subscriber);
-    });
-
-    this.dots.push({ color, mass: defaultDotMass, diameter: defaultDotDiameter, position, velocity, onUpdate });
+    this.dots.push({ color, mass: defaultDotMass, diameter: defaultDotDiameter, position, velocity });
   }
 
   /** Updates each frame of the game. */
   private async _update(): Promise<void> {
+    const newDots: Dot[] = [];
+
     for (let i = 0; i < this.dots.length; i++) {
       // This variable will hold the gravitation force on the dot due to
       // all other dots in the universe except itself.
@@ -58,37 +54,43 @@ export class HomeComponent implements OnInit, OnDestroy {
         // A dot does not affect itself.
         if (i === j) continue;
 
-        const thisForce = this._gravityBetweenDots(this.dots[j], this.dots[i]);
-        resultantForce = this._vector2.add(resultantForce, thisForce);
+        const thisForce = this._gravityBetweenDots(this.dots[i], this.dots[j]);
+        resultantForce = this._vector2.sum(resultantForce, thisForce);
       }
 
       const acceleration = this._vector2.divide(resultantForce, this.dots[i].mass);
       const positionDiff = this._secondLawOfMotion(this.dots[i].velocity, deltaTime, acceleration);
 
-      const newPosition = this._vector2.add(this.dots[i].position, positionDiff);
-
+      const newPosition = this._vector2.sum(this.dots[i].position, positionDiff);
       const newVelocity = this._firstLawOfMotion(this.dots[i].velocity, acceleration, deltaTime);
 
-      this.dots[i].position = newPosition;
-      this.dots[i].velocity = newVelocity;
+      // Creating the new dot.
+      const dot: Dot = { ...this.dots[i] };
+      dot.position = newPosition;
+      dot.velocity = newVelocity;
 
-      // Triggering dot update.
-      this._dotSubscribers[i].next();
+      newDots.push(dot);
     }
+
+    // Reassigning the dots to trigger UI.
+    this.dots = newDots;
   }
 
   /** Calculates the force of gravity between given dots. */
   private _gravityBetweenDots(dot1: Dot, dot2: Dot): Vector2 {
     const displacement = this._vector2.displacement(dot1.position, dot2.position);
 
+    const displacementDir = this._vector2.direction(displacement);
     const displacementMag = this._vector2.magnitude(displacement);
-    // If the dots are touching, gravity is ignored.
-    if (displacementMag < dot1.diameter / 2 + dot2.diameter / 2) return { x: 0, y: 0 };
 
-    const displaceMagCube = Math.pow(displacementMag, 3);
+    // Since we do not handle collisions, the gravity becomes infinite
+    // when the dots pass through each other (displacement becomes zero).
+    // This snippet below handles that "black-hole" case.
+    const minDisplacementMag = dot1.diameter / 2 + dot2.diameter / 2;
+    if (this._vector2.magnitude(displacement) <= minDisplacementMag) return { x: 0, y: 0 };
 
-    const coefficient = (gravitationalConstant * dot1.mass * dot2.mass) / displaceMagCube;
-    return this._vector2.multiply(displacement, coefficient);
+    const coefficient = (-1 * gravitationalConstant * dot1.mass * dot2.mass) / Math.pow(displacementMag, 1);
+    return this._vector2.multiply(displacementDir, coefficient);
   }
 
   /** Applies Newton's second law of motion. */
@@ -96,12 +98,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     const ut = this._vector2.multiply(u, t);
     const at2 = this._vector2.multiply(a, 0.5 * t * t);
 
-    return this._vector2.add(ut, at2);
+    return this._vector2.sum(ut, at2);
   }
 
   /** Applies Newton's first law of motion. */
   private _firstLawOfMotion(u: Vector2, a: Vector2, t: number): Vector2 {
     const at = this._vector2.multiply(a, t);
-    return this._vector2.add(u, at);
+    return this._vector2.sum(u, at);
   }
 }

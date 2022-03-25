@@ -1,4 +1,4 @@
-export const gravitationalConstant = 2;
+export const gravitationalConstant = 0.1;
 
 export const fps = 30;
 export const deltaTime = 1000 / fps;
