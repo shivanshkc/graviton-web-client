@@ -80,7 +80,6 @@ runs:
           --port=8080 \
           --service-account=${{ inputs.service-account-email }} \
           --timeout=600 \
-          --set-secrets=/project/dist/assets/configs/conf.json=graviton-web-client-configs:latest \
           --image=${{ inputs.region }}-docker.pkg.dev/${{ inputs.project-id }}/${{ inputs.repository }}/${{ inputs.service }}:latest \
           --cpu-throttling \
           --region=${{ inputs.region }}
