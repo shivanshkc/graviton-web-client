@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Dot } from '../../models';
 
 @Component({
   selector: 'app-dot',
@@ -6,7 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dot.component.scss'],
 })
 export class DotComponent implements OnInit {
+  @Input() dot?: Dot;
+
+  public ngStyle: { [key: string]: unknown } = {};
+
   constructor() {}
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {
+    if (!this.dot) return;
+
+    this.ngStyle = {
+      position: 'absolute',
+      top: `${this.dot.position.y}px`,
+      left: `${this.dot.position.x}px`,
+
+      borderRadius: '50%',
+      width: `${this.dot.diameter}px`,
+      height: `${this.dot.diameter}px`,
+
+      backgroundColor: this.dot.color,
+    };
+  }
 }

@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 
-import { Dot } from '../../shared/models';
+import { defaultDotDiameter, defaultDotMass } from '../../shared/constants';
+import { Dot, Vector2 } from '../../shared/models';
+import { getRandomColor } from '../../shared/utils/fmt-utils';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +30,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     // Unsubscribing when the component is destroyed.
     this._framesSubscription?.unsubscribe();
+  }
+
+  /** On-click handler for the universe div. */
+  public onUniverseClick(event: MouseEvent): void {
+    const position: Vector2 = { x: event.clientX, y: event.clientY };
+    this.dots.push({ diameter: defaultDotDiameter, position, color: getRandomColor(), mass: defaultDotMass });
   }
 
   /** Updates each frame of the game. */
