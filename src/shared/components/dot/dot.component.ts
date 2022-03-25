@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { Dot } from '../../models';
 
@@ -7,14 +8,26 @@ import { Dot } from '../../models';
   templateUrl: './dot.component.html',
   styleUrls: ['./dot.component.scss'],
 })
-export class DotComponent implements OnInit {
+export class DotComponent implements OnInit, OnDestroy {
   @Input() dot?: Dot;
 
   public ngStyle: { [key: string]: unknown } = {};
+  private _styleSubscription?: Subscription;
 
   constructor() {}
 
   public ngOnInit(): void {
+    if (!this.dot) return;
+
+    this._setDotStyle();
+    this._styleSubscription = this.dot.onUpdate.subscribe(() => this._setDotStyle());
+  }
+
+  public ngOnDestroy(): void {
+    this._styleSubscription?.unsubscribe();
+  }
+
+  private _setDotStyle(): void {
     if (!this.dot) return;
 
     this.ngStyle = {
