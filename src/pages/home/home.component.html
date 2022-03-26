@@ -1,3 +1,11 @@
 <div class="w-100 h-100" (click)="onUniverseClick($event)">
   <app-dot *ngFor="let dot of dots" [dot]="dot"></app-dot>
 </div>
+
+<button mat-fab color="primary" class="play-pause-button">
+  <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
+</button>
+
+<button mat-fab [color]="undefined" class="reset-button">
+  <mat-icon>restart_alt</mat-icon>
+</button>

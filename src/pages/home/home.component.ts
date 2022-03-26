@@ -13,11 +13,11 @@ import { getRandomColor } from '../../shared/utils/fmt-utils';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  // TODO: Combine Vector2 and Vector2Service into single class.
-  // TODO: Material UI.
-
   // List of dots that will be rendered.
   public dots: Dot[] = [];
+
+  // Keeps track of whether the game is paused or running.
+  public isPaused = true;
 
   // The observer that fires at each frame.
   private readonly _framesObservable = timer(0, deltaTime);

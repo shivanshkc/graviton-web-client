@@ -1,0 +1,31 @@
+.play-pause-button {
+  position: fixed;
+  right: 100px;
+  bottom: 30px;
+}
+
+// For small screens (width < 991px).
+@media only screen and (max-width: 991px) {
+  .play-pause-button {
+    // The position is adjusted as per smaller screens.
+    position: fixed;
+    right: 85px;
+    bottom: 15px;
+  }
+}
+
+.reset-button {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+}
+
+// For small screens (width < 991px).
+@media only screen and (max-width: 991px) {
+  .reset-button {
+    // The position is adjusted as per smaller screens.
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+  }
+}
