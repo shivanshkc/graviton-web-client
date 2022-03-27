@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public dots: Dot[] = [];
 
   // Keeps track of whether the game is paused or running.
-  public isPaused = true;
+  public isPaused = false;
 
   // The observer that fires at each frame.
   private readonly _framesObservable = timer(0, deltaTime);
@@ -49,8 +49,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dots.push({ color, mass: defaultDotMass, diameter: defaultDotDiameter, position, velocity });
   }
 
+  /** On-click handler for the play-pause button. */
+  public onPlayPauseClick(): void {
+    // Toggling the paused state.
+    this.isPaused = !this.isPaused;
+  }
+
+  /** On-click handler for the reset button. */
+  public onResetClick(): void {
+    // Destroying all dots.
+    this.dots = [];
+  }
+
   /** Updates each frame of the game. */
   private async _update(): Promise<void> {
+    // If game is paused, we do nothing.
+    if (this.isPaused) return;
+
     const newDots: Dot[] = [];
 
     for (let i = 0; i < this.dots.length; i++) {
