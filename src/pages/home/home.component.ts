@@ -1,18 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 
 import { defaultDotDiameter, defaultDotMass, deltaTime, gravitationalConstant } from '../../shared/constants';
 import { Dot } from '../../shared/models';
 import { ScreenResizeService } from '../../shared/services/screen-resize.service';
 import { Vector2 } from '../../shared/services/vector2';
+import { sleep } from '../../shared/utils';
 import { getRandomColor } from '../../shared/utils/fmt-utils';
+import { TimerComponent } from './components/timer/timer.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(TimerComponent) timer?: TimerComponent;
+
   // List of dots that will be rendered.
   public dots: Dot[] = [];
 
@@ -25,14 +29,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private readonly _screen: ScreenResizeService) {}
 
-  public ngOnInit(): void {
+  public async ngAfterViewInit(): Promise<void> {
+    await sleep(0);
+
     // Subscribing to the observable for updating each frame.
     this._framesSubscription = this._framesObservable.subscribe(() => this._update());
+    // Starting the timer.
+    this.timer?.start();
   }
 
   public ngOnDestroy(): void {
     // Unsubscribing when the component is destroyed.
     this._framesSubscription?.unsubscribe();
+    // Resetting the timer.
+    this.timer?.reset();
   }
 
   /** On-click handler for the universe div. */
@@ -53,12 +63,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   public onPlayPauseClick(): void {
     // Toggling the paused state.
     this.isPaused = !this.isPaused;
+    this.isPaused ? this.timer?.stop() : this.timer?.start();
   }
 
   /** On-click handler for the reset button. */
   public onResetClick(): void {
     // Destroying all dots.
     this.dots = [];
+    this.timer?.reset();
   }
 
   /** Updates each frame of the game. */

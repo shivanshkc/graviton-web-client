@@ -1,3 +1,12 @@
+/**
+ * twoDigitFormat converts single digit numbers such as 3 to "03".
+ * If the number contains more than two digits (or characters), such as 12, 2.5, it does nothing.
+ */
+export const twoDigitFormat = (input: number): string => {
+  const inputStr = input.toString(10);
+  return inputStr.length === 1 ? `0${inputStr}` : inputStr;
+};
+
 /** Generates random colors. */
 export const getRandomColor = (): string => {
   // This number will be one of the R, G, B values.

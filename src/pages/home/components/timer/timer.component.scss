@@ -1,0 +1,20 @@
+:host {
+  // Fixing the timer at the bottom left.
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+}
+
+// For small screens (width < 991px).
+@media only screen and (max-width: 991px) {
+  :host {
+    // The position is adjusted as per smaller screens.
+    position: fixed;
+    left: 15px;
+    bottom: 15px;
+  }
+}
+
+.timer {
+  font-size: x-large;
+}
