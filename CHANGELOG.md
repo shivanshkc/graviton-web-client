@@ -1,10 +1,9 @@
 ## [1.1.3](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.2...v1.1.3) (2022-03-27)
 
-
 ### Bug Fixes
 
-* **core:** timer inital start call fix ([d5c8ffa](https://github.com/shivanshkc/graviton-web-client/commit/d5c8ffa97ee6954a709361ee036c162f889d3dd7))
-* **ui:** play button media query fix ([001095a](https://github.com/shivanshkc/graviton-web-client/commit/001095a4b1c22c1ce001acbceb4bcf1381d07b17))
+- **core:** timer inital start call fix ([d5c8ffa](https://github.com/shivanshkc/graviton-web-client/commit/d5c8ffa97ee6954a709361ee036c162f889d3dd7))
+- **ui:** play button media query fix ([001095a](https://github.com/shivanshkc/graviton-web-client/commit/001095a4b1c22c1ce001acbceb4bcf1381d07b17))
 
 ## [1.1.2](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.1...v1.1.2) (2022-03-27)
 

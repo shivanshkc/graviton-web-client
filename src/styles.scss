@@ -3,11 +3,14 @@
 html,
 body {
   height: 100%;
+  width: 100%;
 }
 
 body {
   margin: 0;
   overflow: hidden;
+  // Setting the position to fixed fixes overflowing in mobile browsers.
+  position: fixed;
 }
 
 // Sugar for width: 100%
