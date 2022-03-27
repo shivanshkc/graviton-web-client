@@ -6,10 +6,10 @@
 
 <app-timer></app-timer>
 
-<button mat-fab color="primary" class="play-pause-button" (click)="onPlayPauseClick()">
+<button mat-fab color="primary" [matTooltip]="isPaused ? 'Play' : 'Pause'" class="play-button" (click)="onPlayClick()">
   <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
 </button>
 
-<button mat-fab [color]="undefined" class="reset-button" (click)="onResetClick()">
+<button mat-fab [color]="undefined" matTooltip="Reset" class="reset-button" (click)="onResetClick()">
   <mat-icon>restart_alt</mat-icon>
 </button>
