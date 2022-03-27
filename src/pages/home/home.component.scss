@@ -1,0 +1,46 @@
+.instruction {
+  // Vertical mid.
+  position: absolute;
+  top: 50%;
+
+  // Horizontal mid.
+  width: 100%;
+  text-align: center;
+
+  // The instruction should not be as intimidating.
+  color: grey;
+  // The instruction should be under the universe div.
+  // So, users will be able to click over it to generate bodies.
+  z-index: -1;
+}
+
+.play-pause-button {
+  // Fixing the button at the bottom right.
+  position: fixed;
+  right: 100px;
+  bottom: 30px;
+}
+
+.reset-button {
+  // Fixing the button at the bottom right.
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+}
+
+// For small screens (width < 991px).
+@media only screen and (max-width: 991px) {
+  .play-pause-button {
+    // The position is adjusted as per smaller screens.
+    position: fixed;
+    right: 85px;
+    bottom: 15px;
+  }
+
+  .reset-button {
+    // The position is adjusted as per smaller screens.
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+  }
+}

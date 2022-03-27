@@ -1,4 +1,5 @@
 /** Dot represents a gravitational body. */
+import { Vector2 } from '../services/vector2';
 
 export interface Dot {
   color: string;
@@ -8,10 +9,4 @@ export interface Dot {
 
   position: Vector2;
   velocity: Vector2;
-}
-
-/** Vector2 represents a 2D vector. */
-export interface Vector2 {
-  x: number;
-  y: number;
 }

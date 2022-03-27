@@ -1,3 +1,15 @@
 <div class="w-100 h-100" (click)="onUniverseClick($event)">
   <app-dot *ngFor="let dot of dots" [dot]="dot"></app-dot>
 </div>
+
+<p class="instruction">Tap on the screen to create gravitationally active bodies.</p>
+
+<app-timer></app-timer>
+
+<button mat-fab color="primary" class="play-pause-button" (click)="onPlayPauseClick()">
+  <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
+</button>
+
+<button mat-fab [color]="undefined" class="reset-button" (click)="onResetClick()">
+  <mat-icon>restart_alt</mat-icon>
+</button>

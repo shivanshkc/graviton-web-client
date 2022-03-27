@@ -1,9 +1,8 @@
 ## [1.0.2](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.1...v1.0.2) (2022-03-25)
 
-
 ### Bug Fixes
 
-* **core:** deployment bug fix ([f2a1339](https://github.com/shivanshkc/graviton-web-client/commit/f2a133973ea7a2ae575b413f573a2eaf8a1f1e55))
+- **core:** deployment bug fix ([f2a1339](https://github.com/shivanshkc/graviton-web-client/commit/f2a133973ea7a2ae575b413f573a2eaf8a1f1e55))
 
 ## [1.0.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.0...v1.0.1) (2022-03-25)
 
