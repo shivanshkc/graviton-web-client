@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.0...v1.1.1) (2022-03-27)
+
+
+### Bug Fixes
+
+* **core:** reset button behaviour correction ([bbc0cb8](https://github.com/shivanshkc/graviton-web-client/commit/bbc0cb8d98e4557d401a5d3a4c70eb309e95c992))
+
 # [1.1.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.2...v1.1.0) (2022-03-27)
 
 ### Bug Fixes
