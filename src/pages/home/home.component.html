@@ -2,6 +2,8 @@
   <app-dot *ngFor="let dot of dots" [dot]="dot"></app-dot>
 </div>
 
+<p class="instruction">Tap on the screen to create gravitationally active bodies.</p>
+
 <button mat-fab color="primary" class="play-pause-button" (click)="onPlayPauseClick()">
   <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
 </button>
