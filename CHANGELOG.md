@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.1...v1.1.2) (2022-03-27)
+
+
+### Bug Fixes
+
+* **ui:** updated favicon ([359a5f3](https://github.com/shivanshkc/graviton-web-client/commit/359a5f306ebbd79b43a6f79cdf296cd2f79422ef))
+
 ## [1.1.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.0...v1.1.1) (2022-03-27)
 
 ### Bug Fixes
