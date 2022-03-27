@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.3...v1.1.4) (2022-03-27)
+
+
+### Bug Fixes
+
+* **ui:** overflow fix in mobile browsers ([903df14](https://github.com/shivanshkc/graviton-web-client/commit/903df14805c0799176f3c10cb25cc654246e7ee0))
+
 ## [1.1.3](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.2...v1.1.3) (2022-03-27)
 
 ### Bug Fixes
