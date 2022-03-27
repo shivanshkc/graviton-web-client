@@ -34,8 +34,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     // Subscribing to the observable for updating each frame.
     this._framesSubscription = this._framesObservable.subscribe(() => this._update());
-    // Starting the timer.
-    this.timer?.start();
+    // If the game is not paused initially, the timer will be started.
+    if (!this.isPaused) this.timer?.start();
   }
 
   public ngOnDestroy(): void {
