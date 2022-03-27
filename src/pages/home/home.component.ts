@@ -60,7 +60,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   /** On-click handler for the play-pause button. */
-  public onPlayPauseClick(): void {
+  public onPlayClick(): void {
     // Toggling the paused state.
     this.isPaused = !this.isPaused;
     this.isPaused ? this.timer?.stop() : this.timer?.start();
@@ -70,6 +70,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   public onResetClick(): void {
     // Destroying all dots.
     this.dots = [];
+    // Pausing the game.
+    this.isPaused = true;
+    // Resetting the timer.
     this.timer?.reset();
   }
 

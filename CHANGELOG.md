@@ -1,20 +1,18 @@
 # [1.1.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.2...v1.1.0) (2022-03-27)
 
-
 ### Bug Fixes
 
-* **core:** merge conflicts ([193b1bf](https://github.com/shivanshkc/graviton-web-client/commit/193b1bf566f2343e055bb4f94600b0f0802a1c4a))
-* **ui:** dot random colors fix ([e1efc61](https://github.com/shivanshkc/graviton-web-client/commit/e1efc61f1035d6aae6d4ec6afae961d4bfda0393))
-
+- **core:** merge conflicts ([193b1bf](https://github.com/shivanshkc/graviton-web-client/commit/193b1bf566f2343e055bb4f94600b0f0802a1c4a))
+- **ui:** dot random colors fix ([e1efc61](https://github.com/shivanshkc/graviton-web-client/commit/e1efc61f1035d6aae6d4ec6afae961d4bfda0393))
 
 ### Features
 
-* **core:** add timer ([a53c019](https://github.com/shivanshkc/graviton-web-client/commit/a53c01913428cafdf23128f293eacd7267c23dca))
-* **core:** material ui buttons ([d825aba](https://github.com/shivanshkc/graviton-web-client/commit/d825abad57261c403c3e8b83a72af06380294525))
-* **core:** play, pause, reset features ([7bf973b](https://github.com/shivanshkc/graviton-web-client/commit/7bf973b6e4e40bf4bd660151ac39dd46329d0aae))
-* **core:** replace vector2 service and model with class ([f66f73b](https://github.com/shivanshkc/graviton-web-client/commit/f66f73b5ce352f6e981584a961cb9c7a83e9bd60))
-* **ui:** add instruction para ([1c8011b](https://github.com/shivanshkc/graviton-web-client/commit/1c8011bac161b4af5ddcff72d288696594b0c350))
-* **ui:** use dark theme ([1cbd47a](https://github.com/shivanshkc/graviton-web-client/commit/1cbd47a4732644e1edf166e08040713bc854900e))
+- **core:** add timer ([a53c019](https://github.com/shivanshkc/graviton-web-client/commit/a53c01913428cafdf23128f293eacd7267c23dca))
+- **core:** material ui buttons ([d825aba](https://github.com/shivanshkc/graviton-web-client/commit/d825abad57261c403c3e8b83a72af06380294525))
+- **core:** play, pause, reset features ([7bf973b](https://github.com/shivanshkc/graviton-web-client/commit/7bf973b6e4e40bf4bd660151ac39dd46329d0aae))
+- **core:** replace vector2 service and model with class ([f66f73b](https://github.com/shivanshkc/graviton-web-client/commit/f66f73b5ce352f6e981584a961cb9c7a83e9bd60))
+- **ui:** add instruction para ([1c8011b](https://github.com/shivanshkc/graviton-web-client/commit/1c8011bac161b4af5ddcff72d288696594b0c350))
+- **ui:** use dark theme ([1cbd47a](https://github.com/shivanshkc/graviton-web-client/commit/1cbd47a4732644e1edf166e08040713bc854900e))
 
 ## [1.0.2](https://github.com/shivanshkc/graviton-web-client/compare/v1.0.1...v1.0.2) (2022-03-25)
 
