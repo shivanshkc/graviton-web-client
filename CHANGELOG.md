@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.2.0...v1.2.1) (2022-04-01)
+
+
+### Bug Fixes
+
+* **ci:** set cloud run min-instance count to zero ([322916d](https://github.com/shivanshkc/graviton-web-client/commit/322916d30fcc8f67cdb6a780a18f6708dd7da81d))
+
 # [1.2.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.4...v1.2.0) (2022-04-01)
 
 ### Bug Fixes
