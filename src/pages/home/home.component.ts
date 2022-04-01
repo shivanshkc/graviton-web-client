@@ -29,6 +29,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private readonly _framesObservable = timer(0, deltaTime);
   private _framesSubscription?: Subscription;
 
+  private readonly _githubLink = 'https://github.com/shivanshkc/graviton-web-client';
+  private readonly _linkedInLink = 'https://www.linkedin.com/in/shivanshk/';
+
   constructor(
     private readonly _screen: ScreenResizeService,
     private readonly _iconReg: MatIconRegistry,
@@ -89,10 +92,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   /** On-click handler for the GitHub button. */
-  public onGithubClick(): void {}
+  public onGithubClick(): void {
+    window.open(this._githubLink, '_blank');
+  }
 
   /** On-click handler for the LinkedIn button. */
-  public onLinkedInClick(): void {}
+  public onLinkedInClick(): void {
+    window.open(this._linkedInLink, '_blank');
+  }
 
   /** Updates each frame of the game. */
   private async _update(): Promise<void> {
