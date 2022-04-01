@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.4...v1.2.0) (2022-04-01)
+
+
+### Bug Fixes
+
+* **core:** add github and linkedin button links ([8d8f63d](https://github.com/shivanshkc/graviton-web-client/commit/8d8f63d6b0b6a9e0e54d76ef5428730f62121cb5))
+
+
+### Features
+
+* **core:** add github and linkedin buttons ([b1d26ba](https://github.com/shivanshkc/graviton-web-client/commit/b1d26ba16024bd15868601b60e4803a7c958d8b6))
+
 ## [1.1.4](https://github.com/shivanshkc/graviton-web-client/compare/v1.1.3...v1.1.4) (2022-03-27)
 
 ### Bug Fixes
