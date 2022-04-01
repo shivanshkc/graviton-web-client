@@ -6,6 +6,14 @@
 
 <app-timer></app-timer>
 
+<button mat-mini-fab [color]="undefined" matTooltip="Source Code" class="github-button" (click)="onGithubClick()">
+  <mat-icon svgIcon="github"></mat-icon>
+</button>
+
+<button mat-mini-fab [color]="undefined" matTooltip="My Linkedin" class="linkedin-button" (click)="onLinkedInClick()">
+  <mat-icon svgIcon="linkedin"></mat-icon>
+</button>
+
 <button mat-fab color="primary" [matTooltip]="isPaused ? 'Play' : 'Pause'" class="play-button" (click)="onPlayClick()">
   <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
 </button>

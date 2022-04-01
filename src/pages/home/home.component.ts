@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription, timer } from 'rxjs';
 
 import { defaultDotDiameter, defaultDotMass, deltaTime, gravitationalConstant } from '../../shared/constants';
@@ -27,7 +29,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private readonly _framesObservable = timer(0, deltaTime);
   private _framesSubscription?: Subscription;
 
-  constructor(private readonly _screen: ScreenResizeService) {}
+  private readonly _githubLink = 'https://github.com/shivanshkc/graviton-web-client';
+  private readonly _linkedInLink = 'https://www.linkedin.com/in/shivanshk/';
+
+  constructor(
+    private readonly _screen: ScreenResizeService,
+    private readonly _iconReg: MatIconRegistry,
+    private readonly _domSanitizer: DomSanitizer,
+  ) {
+    const githubIconURL = this._domSanitizer.bypassSecurityTrustResourceUrl('/assets/svg/github.svg');
+    const linkedInIconURL = this._domSanitizer.bypassSecurityTrustResourceUrl('/assets/svg/linkedin.svg');
+
+    this._iconReg.addSvgIcon('github', githubIconURL);
+    this._iconReg.addSvgIcon('linkedin', linkedInIconURL);
+  }
 
   public async ngAfterViewInit(): Promise<void> {
     await sleep(0);
@@ -74,6 +89,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.isPaused = true;
     // Resetting the timer.
     this.timer?.reset();
+  }
+
+  /** On-click handler for the GitHub button. */
+  public onGithubClick(): void {
+    window.open(this._githubLink, '_blank');
+  }
+
+  /** On-click handler for the LinkedIn button. */
+  public onLinkedInClick(): void {
+    window.open(this._linkedInLink, '_blank');
   }
 
   /** Updates each frame of the game. */
