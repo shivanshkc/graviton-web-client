@@ -28,6 +28,20 @@
   bottom: 30px;
 }
 
+.github-button {
+  // Fixing the button at the top right.
+  position: fixed;
+  right: 30px;
+  top: 30px;
+}
+
+.linkedin-button {
+  // Fixing the button at the top right.
+  position: fixed;
+  right: 30px;
+  top: 80px;
+}
+
 // For small screens (width < 991px).
 @media only screen and (max-width: 991px) {
   .play-button {
@@ -42,5 +56,19 @@
     position: fixed;
     right: 15px;
     bottom: 15px;
+  }
+
+  .github-button {
+    // Fixing the button at the top right.
+    position: fixed;
+    right: 15px;
+    top: 15px;
+  }
+
+  .linkedin-button {
+    // Fixing the button at the top right.
+    position: fixed;
+    right: 15px;
+    top: 65px;
   }
 }
