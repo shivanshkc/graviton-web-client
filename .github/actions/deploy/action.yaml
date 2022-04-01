@@ -73,8 +73,8 @@ runs:
       run: |
         gcloud run deploy ${{ inputs.service }} \
           --concurrency=80 \
+          --min-instances=0 \
           --max-instances=1 \
-          --min-instances=1 \
           --memory=128Mi \
           --platform=managed \
           --port=8080 \
