@@ -148,11 +148,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     const displacementDir = displacement.direction();
     const displacementMag = displacement.magnitude();
 
-    // Since we do not handle collisions, the gravity becomes infinite
-    // when the dots pass through each other (displacement becomes zero).
-    // This snippet below handles that "black-hole" case.
+    // When dots pass through each other, at one point the displacement becomes zero and the gravity becomes infinite.
+    // That's why we cap the minimum possible displacement magnitude here.
     const minDisplacementMag = dot1.diameter / 2 + dot2.diameter / 2;
-    if (displacementMag <= minDisplacementMag) return Vector2.zero;
+    if (minDisplacementMag > displacementMag) return Vector2.zero;
 
     const coefficient = (-1 * gravitationalConstant * dot1.mass * dot2.mass) / Math.pow(displacementMag, 1);
     return displacementDir.multiply(coefficient);
