@@ -1,4 +1,4 @@
-<div class="w-100 h-100" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
+<div class="w-100 h-100" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp()">
   <app-dot *ngFor="let dot of dots" [dot]="dot"></app-dot>
 </div>
 
