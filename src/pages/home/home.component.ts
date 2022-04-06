@@ -6,9 +6,9 @@ import { Subscription, timer } from 'rxjs';
 import {
   defaultDotDiameter,
   defaultDotMass,
+  defaultIncrementRatio,
   deltaTime,
   gravitationalConstant,
-  defaultIncrementRatio
 } from '../../shared/constants';
 import { Dot } from '../../shared/models';
 import { ScreenResizeService } from '../../shared/services/screen-resize.service';
@@ -27,7 +27,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   // List of dots that will be rendered.
   public dots: Dot[] = [];
-  private _dotIsBeingCreated: boolean = false;
+  private _dotIsBeingCreated = false;
 
   // Keeps track of whether the game is paused or running.
   public isPaused = false;
@@ -80,7 +80,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.dots.push(dot);
   }
 
-  public onMouseUp(event: MouseEvent): void {
+  public onMouseUp(): void {
     this._dotIsBeingCreated = false;
   }
 
