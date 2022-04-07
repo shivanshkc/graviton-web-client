@@ -169,7 +169,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       // all other dots in the universe except itself.
       let resultantForce = Vector2.zero;
 
-      for (let j = 0; j < this.dots.length; j++) {
+      for (let j = 0; j < this.dots.length - offset; j++) {
         // A dot does not affect itself.
         if (i === j) continue;
 
