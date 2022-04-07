@@ -70,11 +70,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   /** Handler for mouse down event on the universe. */
   public onUniverseMouseDown(event: MouseEvent): void {
+    // This position moves the center of the dot to the click position.
+    const centeredPos = new Vector2(event.clientX - defaultDotDiameter / 2, event.clientY - defaultDotDiameter / 2);
+
     const dot = {
       color: getRandomColor(),
       mass: defaultDotMass,
       diameter: defaultDotDiameter,
-      position: new Vector2(event.clientX, event.clientY),
+      position: centeredPos,
       velocity: Vector2.zero,
     };
 
@@ -126,7 +129,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       // Dot's mass and dimensions do not exceed the max limit.
       if (dotBeingCreated.diameter < maxDotDiameter) {
         dotBeingCreated.mass += defaultDotMass * defaultIncrementRatio;
-        dotBeingCreated.diameter += defaultDotDiameter * defaultIncrementRatio;
+
+        // Storing the diameter change in a separate variable to keep the dot's center at the click position.
+        const diaChange = defaultDotDiameter * defaultIncrementRatio;
+        // Updating diameter.
+        dotBeingCreated.diameter += diaChange;
+
+        // Moving dot's center to the click position.
+        dotBeingCreated.position = new Vector2(
+          dotBeingCreated.position.x - diaChange / 2,
+          dotBeingCreated.position.y - diaChange / 2,
+        );
       }
 
       newDots[newDots.length - 1] = { ...dotBeingCreated };
