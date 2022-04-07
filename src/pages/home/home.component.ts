@@ -3,7 +3,14 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription, timer } from 'rxjs';
 
-import { defaultDotDiameter, defaultDotMass, deltaTime, gravitationalConstant } from '../../shared/constants';
+import {
+  defaultDotDiameter,
+  defaultDotMass,
+  defaultIncrementRatio,
+  deltaTime,
+  gravitationalConstant,
+  maxDotDiameter,
+} from '../../shared/constants';
 import { Dot } from '../../shared/models';
 import { ScreenResizeService } from '../../shared/services/screen-resize.service';
 import { Vector2 } from '../../shared/services/vector2';
@@ -21,6 +28,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   // List of dots that will be rendered.
   public dots: Dot[] = [];
+  private _isDotBeingCreated = false;
 
   // Keeps track of whether the game is paused or running.
   public isPaused = false;
@@ -60,18 +68,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.timer?.reset();
   }
 
-  /** On-click handler for the universe div. */
-  public onUniverseClick(event: MouseEvent): void {
-    // Giving the dot a random color.
-    const color = getRandomColor();
+  /** Handler for mouse down event on the universe. */
+  public onUniverseMouseDown(event: MouseEvent): void {
+    // This position moves the center of the dot to the click position.
+    const centeredPos = new Vector2(event.clientX - defaultDotDiameter / 2, event.clientY - defaultDotDiameter / 2);
 
-    // Spawning the dot at click location.
-    const position = new Vector2(event.clientX, event.clientY);
-    // Initial velocity is zero.
-    const velocity = Vector2.zero;
+    const dot = {
+      color: getRandomColor(),
+      mass: defaultDotMass,
+      diameter: defaultDotDiameter,
+      position: centeredPos,
+      velocity: Vector2.zero,
+    };
 
-    // Pushing to the dots array. This will show up in the UI due to the *ngFor.
-    this.dots.push({ color, mass: defaultDotMass, diameter: defaultDotDiameter, position, velocity });
+    this._isDotBeingCreated = true;
+    this.dots.push(dot);
+  }
+
+  /** Handler for mouse up event on the universe. */
+  public onUniverseMouseUp(): void {
+    this._isDotBeingCreated = false;
   }
 
   /** On-click handler for the play-pause button. */
@@ -103,12 +119,43 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   /** Updates each frame of the game. */
   private async _update(): Promise<void> {
-    // If game is paused, we do nothing.
-    if (this.isPaused) return;
+    const newDots = [...this.dots];
 
-    const newDots: Dot[] = [];
+    // Dot creation can happen even when the game is paused.
+    if (this._isDotBeingCreated) {
+      // Updating the properties of the dot that is being created.
+      const dotBeingCreated = newDots[newDots.length - 1];
 
-    for (let i = 0; i < this.dots.length; i++) {
+      // Dot's mass and dimensions do not exceed the max limit.
+      if (dotBeingCreated.diameter < maxDotDiameter) {
+        dotBeingCreated.mass += defaultDotMass * defaultIncrementRatio;
+
+        // Storing the diameter change in a separate variable to keep the dot's center at the click position.
+        const diaChange = defaultDotDiameter * defaultIncrementRatio;
+        // Updating diameter.
+        dotBeingCreated.diameter += diaChange;
+
+        // Moving dot's center to the click position.
+        dotBeingCreated.position = new Vector2(
+          dotBeingCreated.position.x - diaChange / 2,
+          dotBeingCreated.position.y - diaChange / 2,
+        );
+      }
+
+      newDots[newDots.length - 1] = { ...dotBeingCreated };
+    }
+
+    // If the game is paused, we don't calculate movements.
+    if (this.isPaused) {
+      // Reassigning the dots to the trigger UI.
+      this.dots = newDots;
+      return;
+    }
+
+    // If a dot is being created, it is not considered part of the simulation.
+    const offset = this._isDotBeingCreated ? 1 : 0;
+
+    for (let i = 0; i < this.dots.length - offset; i++) {
       // This variable will hold the gravitation force on the dot due to
       // all other dots in the universe except itself.
       let resultantForce = Vector2.zero;
@@ -128,13 +175,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       const newVelocity = this._firstLawOfMotion(this.dots[i].velocity, acceleration, deltaTime);
 
       // Creating the new dot.
-      const dot: Dot = { ...this.dots[i] };
+      const dot: Dot = { ...newDots[i] };
       // This call adjusts the newPosition so the dot remains within screen.
       dot.position = this._shiftScreenOverflow(newPosition);
       dot.velocity = newVelocity;
 
       // Populating the newDots array.
-      newDots.push(dot);
+      newDots[i] = dot;
     }
 
     // Reassigning the dots to the trigger UI.
@@ -148,11 +195,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     const displacementDir = displacement.direction();
     const displacementMag = displacement.magnitude();
 
-    // Since we do not handle collisions, the gravity becomes infinite
-    // when the dots pass through each other (displacement becomes zero).
-    // This snippet below handles that "black-hole" case.
+    // When dots pass through each other, at one point the displacement becomes zero and the gravity becomes infinite.
+    // That's why we cap the minimum possible displacement magnitude here.
     const minDisplacementMag = dot1.diameter / 2 + dot2.diameter / 2;
-    if (displacementMag <= minDisplacementMag) return Vector2.zero;
+    if (minDisplacementMag > displacementMag) return Vector2.zero;
 
     const coefficient = (-1 * gravitationalConstant * dot1.mass * dot2.mass) / Math.pow(displacementMag, 1);
     return displacementDir.multiply(coefficient);
