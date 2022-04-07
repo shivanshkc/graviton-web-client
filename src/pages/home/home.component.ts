@@ -9,6 +9,7 @@ import {
   defaultIncrementRatio,
   deltaTime,
   gravitationalConstant,
+  maxDotDiameter,
 } from '../../shared/constants';
 import { Dot } from '../../shared/models';
 import { ScreenResizeService } from '../../shared/services/screen-resize.service';
@@ -27,7 +28,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   // List of dots that will be rendered.
   public dots: Dot[] = [];
-  private _dotIsBeingCreated = false;
+  private _isDotBeingCreated = false;
 
   // Keeps track of whether the game is paused or running.
   public isPaused = false;
@@ -67,7 +68,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.timer?.reset();
   }
 
-  public onMouseDown(event: MouseEvent): void {
+  /** Handler for mouse down event on the universe. */
+  public onUniverseMouseDown(event: MouseEvent): void {
     const dot = {
       color: getRandomColor(),
       mass: defaultDotMass,
@@ -76,12 +78,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       velocity: Vector2.zero,
     };
 
-    this._dotIsBeingCreated = true;
+    this._isDotBeingCreated = true;
     this.dots.push(dot);
   }
 
-  public onMouseUp(): void {
-    this._dotIsBeingCreated = false;
+  /** Handler for mouse up event on the universe. */
+  public onUniverseMouseUp(): void {
+    this._isDotBeingCreated = false;
   }
 
   /** On-click handler for the play-pause button. */
@@ -113,50 +116,59 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   /** Updates each frame of the game. */
   private async _update(): Promise<void> {
-    const newDots: Dot[] = [];
-    // Don't consider the last dot to be in the simulation until it is done being created.
-    const offset = Number(this._dotIsBeingCreated);
+    const newDots = [...this.dots];
 
-    for (let i = 0; i < this.dots.length - offset; i++) {
-      // Creating the new dot.
-      const dot: Dot = { ...this.dots[i] };
-      // If game is paused, we don't calculate movement.
-      if (!this.isPaused) {
-        // This variable will hold the gravitation force on the dot due to
-        // all other dots in the universe except itself.
-        let resultantForce = Vector2.zero;
+    // Dot creation can happen even when the game is paused.
+    if (this._isDotBeingCreated) {
+      // Updating the properties of the dot that is being created.
+      const dotBeingCreated = newDots[newDots.length - 1];
 
-        for (let j = 0; j < this.dots.length - offset; j++) {
-          // A dot does not affect itself.
-          if (i === j) continue;
-
-          const thisForce = this._gravityBetweenDots(this.dots[i], this.dots[j]);
-          resultantForce = resultantForce.sum(thisForce);
-        }
-
-        const acceleration = resultantForce.divide(this.dots[i].mass);
-        const positionDiff = this._secondLawOfMotion(this.dots[i].velocity, deltaTime, acceleration);
-
-        const newPosition = this.dots[i].position.sum(positionDiff);
-        const newVelocity = this._firstLawOfMotion(this.dots[i].velocity, acceleration, deltaTime);
-
-        // This call adjusts the newPosition so the dot remains within screen.
-        dot.position = this._shiftScreenOverflow(newPosition);
-        dot.velocity = newVelocity;
+      // Dot's mass and dimensions do not exceed the max limit.
+      if (dotBeingCreated.diameter < maxDotDiameter) {
+        dotBeingCreated.mass += defaultDotMass * defaultIncrementRatio;
+        dotBeingCreated.diameter += defaultDotDiameter * defaultIncrementRatio;
       }
 
-      // Populating the newDots array.
-      newDots.push(dot);
+      newDots[newDots.length - 1] = { ...dotBeingCreated };
     }
 
-    if (this._dotIsBeingCreated) {
-      const dot = this.dots[this.dots.length - 1];
+    // If the game is paused, we don't calculate movements.
+    if (this.isPaused) {
+      // Reassigning the dots to the trigger UI.
+      this.dots = newDots;
+      return;
+    }
 
-      newDots.push({
-        ...dot,
-        mass: dot.mass + defaultDotMass * defaultIncrementRatio,
-        diameter: dot.diameter + defaultDotDiameter * defaultIncrementRatio,
-      });
+    // If a dot is being created, it is not considered part of the simulation.
+    const offset = this._isDotBeingCreated ? 1 : 0;
+
+    for (let i = 0; i < this.dots.length - offset; i++) {
+      // This variable will hold the gravitation force on the dot due to
+      // all other dots in the universe except itself.
+      let resultantForce = Vector2.zero;
+
+      for (let j = 0; j < this.dots.length; j++) {
+        // A dot does not affect itself.
+        if (i === j) continue;
+
+        const thisForce = this._gravityBetweenDots(this.dots[i], this.dots[j]);
+        resultantForce = resultantForce.sum(thisForce);
+      }
+
+      const acceleration = resultantForce.divide(this.dots[i].mass);
+      const positionDiff = this._secondLawOfMotion(this.dots[i].velocity, deltaTime, acceleration);
+
+      const newPosition = this.dots[i].position.sum(positionDiff);
+      const newVelocity = this._firstLawOfMotion(this.dots[i].velocity, acceleration, deltaTime);
+
+      // Creating the new dot.
+      const dot: Dot = { ...newDots[i] };
+      // This call adjusts the newPosition so the dot remains within screen.
+      dot.position = this._shiftScreenOverflow(newPosition);
+      dot.velocity = newVelocity;
+
+      // Populating the newDots array.
+      newDots[i] = dot;
     }
 
     // Reassigning the dots to the trigger UI.
