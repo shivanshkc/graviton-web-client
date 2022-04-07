@@ -1,4 +1,10 @@
-<div class="w-100 h-100" (mousedown)="onUniverseMouseDown($event)" (mouseup)="onUniverseMouseUp()">
+<div
+  class="w-100 h-100"
+  (touchstart)="onUniverseMouseDown($event)"
+  (touchend)="onUniverseMouseUp()"
+  (mousedown)="onUniverseMouseDown($event)"
+  (mouseup)="onUniverseMouseUp()"
+>
   <app-dot *ngFor="let dot of dots" [dot]="dot"></app-dot>
 </div>
 

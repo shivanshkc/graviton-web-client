@@ -69,9 +69,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Handler for mouse down event on the universe. */
-  public onUniverseMouseDown(event: MouseEvent): void {
+  public onUniverseMouseDown(event: MouseEvent | TouchEvent): void {
+    // If it is a mouse click, but not a left click, we ignore it.
+    if (event instanceof MouseEvent && event.button !== 0) return;
+    // All default touch actions and left-click actions are disabled.
+    event.preventDefault();
+
+    // Getting touch/click position.
+    const posX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+    const posY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+
     // This position moves the center of the dot to the click position.
-    const centeredPos = new Vector2(event.clientX - defaultDotDiameter / 2, event.clientY - defaultDotDiameter / 2);
+    const centeredPos = new Vector2(posX - defaultDotDiameter / 2, posY - defaultDotDiameter / 2);
 
     const dot = {
       color: getRandomColor(),
