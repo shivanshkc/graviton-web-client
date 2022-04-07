@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/shivanshkc/graviton-web-client/compare/v1.3.1...v1.3.2) (2022-04-07)
+
+
+### Bug Fixes
+
+* **core:** dot absolute positioning bug fix ([b0050a3](https://github.com/shivanshkc/graviton-web-client/commit/b0050a3d564d14f43683d76454a9a341dfe587e2))
+
 ## [1.3.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.3.0...v1.3.1) (2022-04-07)
 
 ### Bug Fixes
