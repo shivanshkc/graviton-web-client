@@ -1,10 +1,9 @@
 ## [1.3.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.3.0...v1.3.1) (2022-04-07)
 
-
 ### Bug Fixes
 
-* **core:** bigget dot creation fix on mobile devices ([2179611](https://github.com/shivanshkc/graviton-web-client/commit/2179611756190fb3140193ef512e8c865f375e72))
-* **core:** dots being created do not participate in simulation ([4aa1587](https://github.com/shivanshkc/graviton-web-client/commit/4aa1587f136aebd6b6c2480e69def08e531fa242))
+- **core:** bigget dot creation fix on mobile devices ([2179611](https://github.com/shivanshkc/graviton-web-client/commit/2179611756190fb3140193ef512e8c865f375e72))
+- **core:** dots being created do not participate in simulation ([4aa1587](https://github.com/shivanshkc/graviton-web-client/commit/4aa1587f136aebd6b6c2480e69def08e531fa242))
 
 # [1.3.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.2.1...v1.3.0) (2022-04-07)
 

@@ -25,8 +25,8 @@ export class DotComponent implements OnInit {
 
     this.ngStyle = {
       position: 'absolute',
-      top: `${this.dot.position.y}px`,
-      left: `${this.dot.position.x}px`,
+      top: `${this.dot.position.y - this.dot.diameter / 2}px`,
+      left: `${this.dot.position.x - this.dot.diameter / 2}px`,
 
       borderRadius: '50%',
       width: `${this.dot.diameter}px`,
