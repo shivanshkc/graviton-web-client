@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/shivanshkc/graviton-web-client/compare/v1.2.1...v1.3.0) (2022-04-07)
+
+
+### Bug Fixes
+
+* **core:** dot centers align with click position ([cf64f89](https://github.com/shivanshkc/graviton-web-client/commit/cf64f89309c0ad094368fd5cc8813db61f215173))
+
+
+### Features
+
+* **core:** press and hold to create bigger dots ([0a85788](https://github.com/shivanshkc/graviton-web-client/commit/0a8578878058fd8276b1b307d0c3e8b3e1e87840))
+
 ## [1.2.1](https://github.com/shivanshkc/graviton-web-client/compare/v1.2.0...v1.2.1) (2022-04-01)
 
 ### Bug Fixes
