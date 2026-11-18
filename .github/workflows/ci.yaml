@@ -10,15 +10,15 @@ permissions:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/lint
 
   build:
     name: Build
     needs: lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build

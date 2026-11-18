@@ -11,26 +11,26 @@ permissions:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/lint
 
   build:
     name: Build
     needs: lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build
 
   semver:
     name: Semver
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ./.github/actions/semver
@@ -40,14 +40,11 @@ jobs:
   deploy:
     name: Deploy
     needs: semver
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/deploy
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/deploy-cf-pages
         with:
-          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          service-account-key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-          project-id: ${{ secrets.GCP_PROJECT_ID }}
-          region: ${{ secrets.GCP_REGION }}
-          repository: ${{ secrets.GCP_REPOSITORY_NAME }}
-          service: ${{ secrets.GCP_SERVICE_NAME }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          project-name: graviton-web-client

@@ -7,12 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "pretty:check": "prettier --check . '!.angular/**' '!dist/**'",
-    "pretty": "prettier --write . '!.angular/**' '!dist/**'",
+    "pretty:check": "prettier --check . '!.angular/**' '!dist/**' '!CHANGELOG.md'",
+    "pretty": "prettier --write . '!.angular/**' '!dist/**' '!CHANGELOG.md'",
     "lint:check": "eslint .",
-    "lint": "eslint --fix .",
-    "build:image": "docker build -t graviton-web-client:latest .",
-    "build:container": "docker run -d -p 4200:8080 --name graviton-web-client graviton-web-client:latest"
+    "lint": "eslint --fix ."
   },
   "private": true,
   "dependencies": {
